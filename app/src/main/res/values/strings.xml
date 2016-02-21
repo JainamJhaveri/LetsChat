@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">LetsChat</string>
     <string name="title_activity_login">Login</string>
+
     <string name="action_settings">Settings</string>
+    <string name="action_profile">Profile</string>
+
     <string name="facebook_app_id">997537896986484</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_activity_settings">Settings</string>
 </resources>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e2dddd"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <TextView
+            android:gravity="left|center"
+            android:text="DOUBLE TAP ON THE PIC TO CHANGE IT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:padding="7dp"
+            android:layout_margin="5dp"
+            />
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:foregroundGravity="center"
+            android:background="#fef9f9">
+
+            <com.example.digvijay.letschat.RoundedImageView
+                android:id="@+id/imageView_round"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_launcher"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:gravity="left|center"
+            android:text="WRITE SOMETHING ABOUT YOURSELF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_margin="5dp"
+            android:padding="7dp"
+            />
+
+        <EditText
+            android:hint="I am a techno freak and a to-be engineer. I love to create things just like that and not only for my resume. :P"
+            android:background="#fef9f9"
+            android:height="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="15"
+            android:padding="7dp"
+            android:id="@+id/editText" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+
+        <Button
+            android:text="Apply Changes !"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:gravity="center"
+            android:background="#eee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+
+    </LinearLayout>
+
+</ScrollView>

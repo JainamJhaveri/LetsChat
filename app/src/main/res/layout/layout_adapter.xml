@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+
+
+    <com.example.digvijay.letschat.RoundedImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+
+        android:layout_margin="5dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_launcher"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_margin="5dp"
+        android:text="Medium Text"
+        android:paddingTop="25dp"
+        android:paddingLeft="15dp"
+        android:id="@+id/textView" />
+</LinearLayout>

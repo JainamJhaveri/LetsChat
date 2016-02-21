@@ -25,7 +25,9 @@ public class LoginFragment extends Fragment {
 
     LoginButton loginButton;
     CallbackManager callbackmanager;
-    TextView tv;
+
+    public static String USERNAME = "com.example.digvijay.letschat.username";
+
     FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
@@ -33,7 +35,10 @@ public class LoginFragment extends Fragment {
             Profile p = Profile.getCurrentProfile();
             Toast.makeText(getActivity().getApplicationContext(),p.toString(),Toast.LENGTH_LONG).show();
             if(p != null){
-                tv.setText(p.getName());
+
+                Intent i = new Intent(getActivity(),Home.class);
+                i.putExtra(LoginFragment.USERNAME,p.getName());
+                startActivity(i);
             }
 
         }
@@ -72,7 +77,6 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loginButton = (LoginButton)view.findViewById(R.id.login_button);
-        tv = (TextView)view.findViewById(R.id.textView);
         loginButton.setReadPermissions("user_friends");
         loginButton.setFragment(this);
         loginButton.registerCallback(callbackmanager,callback);

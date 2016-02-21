@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.digvijay.letschat.Settings"
+    tools:showIn="@layout/activity_settings">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:gravity="left|center"
+            android:text="WHERE"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:textSize="15sp"
+            android:padding="7dp"
+            />
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff">
+            <TextView
+                android:padding="7dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Current Location: "
+                android:textSize="18sp"
+                android:textColor="#000000" />
+            <TextView
+                android:padding="7dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textSize="18sp"
+                android:text="Ahmedabad, Gujarat"
+                android:gravity="right"
+                android:textColor="#525252" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:padding="7dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textSize="18sp"
+                    android:text="Maximum Distance Range: "
+                    android:textColor="#000000" />
+                <TextView
+                    android:padding="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textSize="18sp"
+                    android:text="20 km"
+                    android:gravity="right"
+                    android:textColor="#525252" />
+            </LinearLayout>
+
+            <SeekBar
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:padding="7dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <TextView
+            android:gravity="left|center"
+            android:text="WHO"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:textSize="15sp"
+            android:padding="7dp"
+            />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:padding="7dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textSize="18sp"
+                    android:text="Age Range: "
+                    android:textColor="#000000" />
+                <TextView
+                    android:padding="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textSize="18sp"
+                    android:text="18 - 22"
+                    android:gravity="right"
+                    android:textColor="#525252" />
+            </LinearLayout>
+
+            <SeekBar
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:padding="7dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
