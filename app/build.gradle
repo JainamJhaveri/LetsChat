@@ -29,4 +29,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'com.google.android.gms:play-services-location:8.4.0'
+    compile 'com.github.nkzawa:socket.io-client:0.3.0'
+    compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.3'
 }
