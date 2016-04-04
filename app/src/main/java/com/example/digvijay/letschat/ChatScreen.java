@@ -40,7 +40,7 @@ public class ChatScreen extends AppCompatActivity {
 
         mSocket = SocketHandler.getSocket();
         mSocket.on("newMessageR", messageReceived);
-        mSocket.on("leftChat",disableSending);
+        mSocket.on("userLeft",disableSending);
 
         disableSend = (View)findViewById(R.id.disableSend);
         sendChatScreen = (View)findViewById(R.id.sendChatScreen);
