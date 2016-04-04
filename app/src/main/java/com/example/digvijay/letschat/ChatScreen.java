@@ -24,7 +24,9 @@ public class ChatScreen extends AppCompatActivity {
     ChatScreenAdapter chatScreenAdapter;
     String oppUserId;
     String oppUserName;
+    View sendChatScreen,disableSend;
     com.github.nkzawa.socketio.client.Socket mSocket;
+
 
     @Override
 
@@ -37,8 +39,11 @@ public class ChatScreen extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mSocket = SocketHandler.getSocket();
-        mSocket.on("newMessageR",messageReceived);
+        mSocket.on("newMessageR", messageReceived);
+        mSocket.on("leftChat",disableSending);
 
+        disableSend = (View)findViewById(R.id.disableSend);
+        sendChatScreen = (View)findViewById(R.id.sendChatScreen);
         editText = (EditText)findViewById(R.id.message);
         lv = (ListView)findViewById(R.id.chatList);
         ArrayList<ChatMessage> list = new ArrayList<>();
@@ -71,8 +76,15 @@ public class ChatScreen extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mSocket.off("newMessageR",messageReceived);
-        Log.e("   >>>>>>>>>>    ","ChatScreenOnDestroy");
+        mSocket.off("newMessageR", messageReceived);
+        JSONObject ob = new JSONObject();
+        try {
+            ob.put("to",oppUserId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mSocket.emit("leftChat",ob);
+        Log.e("   >>>>>>>>>>    ", "ChatScreenOnDestroy");
 
     }
 
@@ -91,6 +103,19 @@ public class ChatScreen extends AppCompatActivity {
                     }
                     chatScreenAdapter.add(m);
 
+                }
+            });
+        }
+    };
+
+    Emitter.Listener disableSending = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    disableSend.setVisibility(View.VISIBLE);
+                    sendChatScreen.setVisibility(View.INVISIBLE);
                 }
             });
         }
