@@ -9,12 +9,14 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static com.example.digvijay.letschat.MyPreferences.*;
+
 public class Settings extends AppCompatActivity {
     private GPSLocation mylocation;
     SeekBar seek_dist, seek_age;
     int distprogress = 0, ageprogress = 0;
     TextView tv_distance, tv_age, tv_address;
-    private int min_d = 20,  min_a = 19 ; // used for seekbars
+    private static final int min_d = 20,  min_a = 19 ; // used for seekbars
     private Location anotherlocation;       // a sample test location
 
     @Override
@@ -25,9 +27,19 @@ public class Settings extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getViewReferences();
+        initializeTVsAndSeekBars();
         manipulateSeekBars();
         setupARandomLocation();
 
+    }
+
+    private void initializeTVsAndSeekBars() {
+        distprogress = getDistanceRange(this);
+        ageprogress = getAgeRange(this);
+        tv_distance.setText(distprogress + " meters");
+        tv_age.setText("18 - " + ageprogress);
+        seek_dist.setProgress(distprogress - min_d);
+        seek_age.setProgress(ageprogress - min_a);
     }
 
     private void setupARandomLocation() {// setting any random coordinates
@@ -41,17 +53,23 @@ public class Settings extends AppCompatActivity {
     public void showMyLocation(View view) {
 
         mylocation = new GPSLocation(this);
-        if (mylocation.canGetLocation()) {
 
-            double latitude = mylocation.getLatitude();
-            double longitude = mylocation.getLongitude();
-            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-            int d_from_another  = mylocation.distancefrom(anotherlocation);
-            System.out.println("Distance: " + d_from_another);
-            Toast.makeText(Settings.this, d_from_another + " meters" , Toast.LENGTH_SHORT).show();
+        if( isNetworkAvailable( this ) ) {
+            if (mylocation.canGetLocation()) {
 
-        } else {
-            mylocation.showSettingsAlert();
+                double latitude = mylocation.getLatitude();
+                double longitude = mylocation.getLongitude();
+                Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                int d_from_another = mylocation.distancefrom(anotherlocation);
+                System.out.println("Distance: " + d_from_another);
+                Toast.makeText(Settings.this, d_from_another + " meters", Toast.LENGTH_SHORT).show();
+
+            } else {
+                mylocation.showSettingsAlert();
+            }
+        }
+        else{
+            Toast.makeText(Settings.this, "Network unavailable", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -69,6 +87,7 @@ public class Settings extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                setDistanceRange(getApplicationContext(), distprogress);
                 tv_distance.setText(distprogress + " meters");
             }
         });
@@ -84,7 +103,8 @@ public class Settings extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                tv_age.setText("18 - " +ageprogress);
+                setAgeRange(getApplicationContext(), ageprogress);
+                tv_age.setText("18 - " + ageprogress);
             }
         });
 

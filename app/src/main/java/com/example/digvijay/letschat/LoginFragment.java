@@ -1,8 +1,6 @@
 package com.example.digvijay.letschat;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +18,8 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import static com.example.digvijay.letschat.MyPreferences.*;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -45,7 +45,10 @@ public class LoginFragment extends Fragment {
             profile = Profile.getCurrentProfile();
             Toast.makeText(getActivity().getApplicationContext(), "Hi " + profile.getFirstName() + " :)", Toast.LENGTH_SHORT).show();
 
-            setPreferences();
+            setUsername(getContext(), profile.getName());
+            setId(getContext(), profile.getId());
+            setLoggedIn(getContext(), true);
+
             moveToHomeActivity(profile);
 
         }
@@ -60,18 +63,6 @@ public class LoginFragment extends Fragment {
             Toast.makeText(getContext(), "Please check you Internet Connectivity", Toast.LENGTH_LONG).show();
         }
     };
-
-    private void setPreferences() {
-
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
-        SharedPreferences.Editor prefEditor = sharedPref.edit();
-
-        prefEditor.putBoolean("isLogged", true );
-        prefEditor.putString("name", profile.getName());
-        prefEditor.putString( "id", profile.getId() );
-
-        prefEditor.commit();
-    }
 
 
     @Override

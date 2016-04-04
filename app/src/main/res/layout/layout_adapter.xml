@@ -1,29 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="horizontal"
     android:weightSum="1">
-
 
 
     <com.example.digvijay.letschat.RoundedImageView
         android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-
-        android:layout_margin="5dp"
+        android:layout_width="75dp"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_launcher"
-        />
+        android:src="@drawable/ic_launcher" />
 
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_margin="5dp"
-        android:text="Medium Text"
-        android:paddingTop="25dp"
-        android:paddingLeft="15dp"
-        android:id="@+id/textView" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:textColor="#000"
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="left|center"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textColor="#000"
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:gravity="left|center"
+                android:text="18000 metres" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_gravity="top"
+                    android:gravity="center"
+                    android:text="Lat: 12.345678 " />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_gravity="top"
+                    android:gravity="center|top"
+                    android:text="Long: 23.456789 " />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 </LinearLayout>

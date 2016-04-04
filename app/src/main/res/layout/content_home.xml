@@ -9,73 +9,74 @@
     tools:showIn="@layout/activity_home">
 
     <TextView
-        android:layout_marginTop="10dp"
+        android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="21sp"
-        android:text="Large Text"
-        android:fontFamily="sans-serif"
-        android:textStyle="italic"
-        android:id="@+id/userName"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:text="Large Text"
+        android:textSize="21sp"
+        android:textStyle="italic" />
 
     <View
         android:id="@+id/dividerview"
-        android:layout_margin="2dp"
-        android:padding="1dp"
-        android:layout_below="@+id/userName"
-        android:background="#eee"
         android:layout_width="match_parent"
-        android:layout_height="1dp">
+        android:layout_height="1dp"
+        android:layout_below="@+id/userName"
+        android:layout_margin="2dp"
+        android:background="#eee"
+        android:padding="1dp">
 
     </View>
 
     <ListView
+        android:id="@+id/history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/history"
-        android:padding="10dp"
+        android:layout_above="@+id/refresh"
         android:layout_below="@+id/dividerview"
-        android:layout_above="@+id/refresh"/>
+        android:padding="10dp" />
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal" android:layout_width="match_parent"
-        android:background="#222222"
-        android:paddingTop="20dp"
-        android:layout_alignParentBottom="true"
-        android:paddingBottom="20dp"
         android:id="@+id/waiting_overlay"
-        android:visibility="invisible"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#222222"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:visibility="invisible">
 
         <TextView
             android:layout_width="0dp"
-            android:layout_margin="10dp"
             android:layout_height="50dp"
-            android:text="Waiting..."
-            android:textColor="#ffffff"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
             android:gravity="center"
-            android:layout_weight="2"/>
+            android:text="Waiting..."
+            android:textColor="#ffffff" />
+
         <Button
-            android:layout_width="0dp"
             android:id="@+id/cancelWaiting"
+            android:layout_width="0dp"
             android:layout_height="50dp"
-            android:text="Cancel"
             android:layout_margin="10dp"
+            android:layout_weight="1"
             android:background="#333333"
-            android:textColor="#ffffff"
             android:onClick="cancelWaiting"
-            android:layout_weight="1"/>
+            android:text="Cancel"
+            android:textColor="#ffffff" />
     </LinearLayout>
 
     <Button
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="REFRESH"
-        android:id="@+id/refresh"
         android:layout_alignParentBottom="true"
         android:onClick="refresh"
-        />
+        android:text="REFRESH" />
 </RelativeLayout>
