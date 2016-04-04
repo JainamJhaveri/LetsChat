@@ -85,7 +85,7 @@ public class ChatScreen extends AppCompatActivity {
                     JSONObject ob =(JSONObject)args[0];
                     ChatMessage m = null;
                     try {
-                        m = new ChatMessage(ob.getString("message"),true);
+                        m = new ChatMessage(ob.getString("message"),false);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
