@@ -4,135 +4,162 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+
+    android:layout_marginTop="70dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.digvijay.letschat.Settings"
     tools:showIn="@layout/activity_settings">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
-            android:gravity="left|center"
-            android:text="WHERE"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:textSize="15sp"
+            android:gravity="left|center"
             android:padding="7dp"
-            />
+            android:text="WHERE"
+            android:textSize="15sp" />
 
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff">
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
             <TextView
-                android:padding="7dp"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text="Current Location: "
-                android:textSize="18sp"
-                android:textColor="#000000" />
-            <TextView
                 android:padding="7dp"
+                android:text="Current Location: "
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:textSize="18sp"
-                android:text="Ahmedabad, Gujarat"
                 android:gravity="right"
-                android:textColor="#525252" />
+                android:padding="7dp"
+                android:text="Ahmedabad, Gujarat"
+                android:textColor="#525252"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            />
+            android:layout_height="2dp" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffff">
+            android:background="#ffffff"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:padding="7dp"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:textSize="18sp"
-                    android:text="Maximum Distance Range: "
-                    android:textColor="#000000" />
-                <TextView
                     android:padding="7dp"
+                    android:text="Maximum Distance Range: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_distance"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:textSize="18sp"
-                    android:text="20 km"
                     android:gravity="right"
-                    android:textColor="#525252" />
+                    android:padding="7dp"
+                    android:text="111 meters"
+                    android:textColor="#525252"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <SeekBar
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/seek_dist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
                 android:layout_marginRight="7dp"
+                android:max="980"
                 android:padding="7dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:progress="99" />
         </LinearLayout>
 
         <TextView
-            android:gravity="left|center"
-            android:text="WHO"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:textSize="15sp"
+            android:gravity="left|center"
             android:padding="7dp"
-            />
+            android:text="WHO"
+            android:textSize="15sp" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffff">
+            android:background="#ffffff"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:padding="7dp"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:textSize="18sp"
-                    android:text="Age Range: "
-                    android:textColor="#000000" />
-                <TextView
                     android:padding="7dp"
+                    android:text="Age Range: "
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_age"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:textSize="18sp"
-                    android:text="18 - 22"
                     android:gravity="right"
-                    android:textColor="#525252" />
+                    android:padding="7dp"
+                    android:text="18 - 22"
+                    android:textColor="#525252"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <SeekBar
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:id="@+id/seek_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="7dp"
                 android:layout_marginRight="7dp"
+                android:max="71"
                 android:padding="7dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:progress="3" />
         </LinearLayout>
 
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:onClick="showMyLocation"
+        android:text="Show my location" />
 
 
 </RelativeLayout>

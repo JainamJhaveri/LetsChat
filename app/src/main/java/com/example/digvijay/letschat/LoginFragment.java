@@ -46,7 +46,7 @@ public class LoginFragment extends Fragment {
             Toast.makeText(getActivity().getApplicationContext(), "Hi " + profile.getFirstName() + " :)", Toast.LENGTH_SHORT).show();
 
             setPreferences();
-            displayWelcomeMessage( profile );
+            moveToHomeActivity(profile);
 
         }
 
@@ -57,7 +57,7 @@ public class LoginFragment extends Fragment {
 
         @Override
         public void onError(FacebookException error) {
-            Toast.makeText(getContext(), "Please check you Error", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Please check you Internet Connectivity", Toast.LENGTH_LONG).show();
         }
     };
 
@@ -90,7 +90,7 @@ public class LoginFragment extends Fragment {
         profileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                displayWelcomeMessage( currentProfile );
+                moveToHomeActivity( currentProfile);
             }
         };
 
@@ -119,7 +119,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        displayWelcomeMessage( profile );
+        moveToHomeActivity( profile );
     }
 
     @Override
@@ -129,13 +129,10 @@ public class LoginFragment extends Fragment {
     }
 
 
-    private void displayWelcomeMessage(Profile profile) {
-
-        SharedPreferences sharedPref = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
+    private void moveToHomeActivity(Profile profile) {
 
         if (profile != null) {
             Intent i = new Intent( getActivity() , Home.class );
-
             startActivity( i );
             getActivity().finish();
         }

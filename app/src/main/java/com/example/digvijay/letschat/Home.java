@@ -4,34 +4,28 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewStub;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.engineio.client.Socket;
-import com.github.nkzawa.engineio.*;
 import com.github.nkzawa.socketio.client.IO;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.net.URISyntaxException;
-import java.util.Arrays;
 
 
 public class Home extends AppCompatActivity {
@@ -44,15 +38,13 @@ public class Home extends AppCompatActivity {
     String names[];
     View waiting_overlay;
     String ids[];
-    String[] str = {"Aashka", "Anjali", "Jainam", "Priyanshi", "Akash"};
-    int[] img = {R.drawable.p1, R.drawable.p2, R.drawable.p4, R.drawable.p3, R.drawable.p5, R.drawable.p6};
+    String[] str = {"User 1", "User 2", "User 3", "User 4", "User 5", "User 6"};
+    int[] img = {R.drawable.p4, R.drawable.p4, R.drawable.p4, R.drawable.p4, R.drawable.p4, R.drawable.p4};
     CustomListAdapter adapter;
     View waitingPanel;
     FloatingActionButton fab;
 
     String id,username;
-
-    static int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +56,14 @@ public class Home extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_home);
         setSupportActionBar(toolbar);
 
-        //tv = (TextView) findViewById(R.id.userName);
-        //if (count == 0) {
-          //  tv.setText(getIntent().getExtras().getString(LoginFragment.USERNAME));
-        SharedPreferences sharedPref = getSharedPreferences("data", MODE_PRIVATE);
+        id = getFromSharedPrefs("id");
+        username = getFromSharedPrefs("name");
+        System.out.println("id: " +id + ", username:  "+username);
+        tv = (TextView) findViewById(R.id.userName);
+        tv.setText( username );
 
-            id = sharedPref.getString("id","No Id Found");
-            username = sharedPref.getString("name","No Name Found");
 
-        waiting_overlay = (View)findViewById(R.id.waiting_overlay);
+        waiting_overlay = findViewById(R.id.waiting_overlay);
         refresh = (Button)findViewById(R.id.refresh);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -100,9 +91,6 @@ public class Home extends AppCompatActivity {
 
         establishConnection();
 
-
-
-
         Log.e("   >>>>>>>>>>    ", "HomeOnCreate");
     }
 
@@ -118,7 +106,6 @@ public class Home extends AppCompatActivity {
             case R.id.action_profile:
                 Intent profileIntent = new Intent(this, Profile.class);
                 startActivity(profileIntent);
-
                 return true;
 
             case R.id.action_settings:
@@ -126,13 +113,24 @@ public class Home extends AppCompatActivity {
                 startActivity(settingsIntent);
                 return true;
 
+            case R.id.logout:
+                Toast.makeText(this.getApplicationContext(), "Logout clicked !", Toast.LENGTH_SHORT).show();
+                if ( ! isNetworkAvailable() )
+                {
+                    Toast.makeText(Home.this, "No internet connected", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                clearPreferences();
+                LoginManager.getInstance().logOut();
+                return true;
         }
         return false;
     }
 
     void establishConnection() {
         try {
-            mSocket = IO.socket("http://10.0.0.8:3000");
+            mSocket = IO.socket("http://letschatserver.herokuapp.com/");
+            System.out.println("here: " + mSocket.toString());
             SocketHandler.setSocket(mSocket);
             mSocket.connect();
             mSocket.on("getUsers", displayOnlineUsers);
@@ -220,7 +218,7 @@ public class Home extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-       mSocket.emit("unregister", user);
+        mSocket.emit("unregister", user);
         mSocket.disconnect();
         mSocket.off("newChat", newChatListener);
         mSocket.off("getUsers", displayOnlineUsers);
@@ -241,4 +239,44 @@ public class Home extends AppCompatActivity {
         }
 
     }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void clearPreferences() {
+
+        SharedPreferences sharedPref = getSharedPreferences("data", MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor = sharedPref.edit();
+
+        prefEditor.clear();
+        prefEditor.commit();
+
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+
+        this.finish();
+
+    }
+
+    private String getFromSharedPrefs(String something) {
+        SharedPreferences sharedPref = getSharedPreferences("data", MODE_PRIVATE);
+        switch(something){
+            case "name":
+                return sharedPref.getString(something, "No Name found");
+            case "id":
+                return sharedPref.getString(something,"No Id Found");
+        }
+        return "Can't reach here unless you passed something other than 'name' or 'id' in this method :) ";
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d(" Home: ", " Back Pressed");
+        this.finish();
+    }
+
 }
