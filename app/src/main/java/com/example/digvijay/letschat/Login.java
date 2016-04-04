@@ -13,6 +13,8 @@ import android.util.Log;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import static com.example.digvijay.letschat.MyPreferences.*;
+
 public class Login extends AppCompatActivity {
 
     @Override
@@ -24,13 +26,12 @@ public class Login extends AppCompatActivity {
         } else {
             Intent in = new Intent(this, Home.class);
             startActivity(in);
-            finish();
+            this.finish();
         }
     }
 
     private boolean isLoggedIn() {
-        SharedPreferences sharedPref = getSharedPreferences("data", MODE_PRIVATE);
-        return sharedPref.getBoolean("isLogged", false);
+        return getLoggedIn(this);
     }
 
 

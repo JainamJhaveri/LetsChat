@@ -77,9 +77,9 @@
                     android:id="@+id/tv_distance"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:padding="7dp"
-                    android:text="111 meters"
+                    android:text="meters ++"
                     android:textColor="#525252"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -128,9 +128,9 @@
                     android:id="@+id/tv_age"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:padding="7dp"
-                    android:text="18 - 22"
+                    android:text="18 +"
                     android:textColor="#525252"
                     android:textSize="18sp" />
             </LinearLayout>
