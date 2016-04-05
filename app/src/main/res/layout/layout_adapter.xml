@@ -22,7 +22,7 @@
 
         <TextView
             android:textColor="#000"
-            android:id="@+id/textView"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginRight="5dp"
@@ -41,7 +41,8 @@
                 android:layout_width="110dp"
                 android:layout_height="match_parent"
                 android:gravity="left|center"
-                android:text="18000 metres" />
+                android:text="18000 metres"
+                android:id="@+id/distance" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -53,14 +54,16 @@
                     android:layout_height="20dp"
                     android:layout_gravity="top"
                     android:gravity="center"
-                    android:text="Lat: 12.345678 " />
+                    android:text="Lat: 12.345678 "
+                    android:id="@+id/lat" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     android:layout_gravity="top"
                     android:gravity="center|top"
-                    android:text="Long: 23.456789 " />
+                    android:text="Long: 23.456789 "
+                    android:id="@+id/lon" />
 
             </LinearLayout>
 

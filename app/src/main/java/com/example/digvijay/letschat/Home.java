@@ -3,6 +3,7 @@ package com.example.digvijay.letschat;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -30,20 +31,33 @@ import static com.example.digvijay.letschat.MyPreferences.*;
 
 public class Home extends AppCompatActivity {
     com.github.nkzawa.socketio.client.Socket mSocket;
-    TextView tv;
+    TextView tv, waitingText;
     Context context;
     Activity activity;
     ListView history;
-    Button refresh;
-    String names[];
+    Button refresh, cancelWaiting;
     View waiting_overlay;
-    String ids[];
+    String ids[], names[];
+    double latitudes[], longitudes[];
+    float distances[];
     String[] str = {"User 1", "User 2", "User 3", "User 4", "User 5", "User 6"};
     int[] img = {R.drawable.p4, R.drawable.p4, R.drawable.p4, R.drawable.p4, R.drawable.p4, R.drawable.p4};
     CustomListAdapter adapter;
     FloatingActionButton fab;
-
+    LocationFetcher locationFetcher;
+    Location location;
     String id, username;
+    int status;
+
+    private final int NO_CONNECTION = 1;
+    private final int ACTIVE_CONNECTION = 2;
+
+    @Override
+    protected void onStart() {
+
+        locationFetcher.onStart();
+        super.onStart();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +75,17 @@ public class Home extends AppCompatActivity {
         tv = (TextView) findViewById(R.id.userName);
         tv.setText(username);
 
+        locationFetcher = new LocationFetcher(this);
+        locationFetcher.onCreate();
 
+        history = (ListView) findViewById(R.id.history);
+        waitingText = (TextView) findViewById(R.id.waitingText);
+        cancelWaiting = (Button) findViewById(R.id.cancelWaiting);
         waiting_overlay = findViewById(R.id.waiting_overlay);
         refresh = (Button) findViewById(R.id.refresh);
         fab = (FloatingActionButton) findViewById(R.id.fab);
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,10 +93,13 @@ public class Home extends AppCompatActivity {
                     waiting_overlay.setVisibility(View.VISIBLE);
                     fab.setVisibility(View.INVISIBLE);
                     refresh.setVisibility(View.INVISIBLE);
+                    cancelWaiting.setText("Cancel");
+                    waitingText.setText("Waiting for a user...");
                     JSONObject ob = new JSONObject();
                     ob.put("id", id);
                     mSocket.emit("ready", ob);
                     mSocket.on("newChat", newChatListener);
+                    Toast.makeText(context, locationFetcher.getLocation().getLatitude() + "", Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(context, "Exception thrown", Toast.LENGTH_LONG).show();
@@ -83,10 +107,11 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        history = (ListView) findViewById(R.id.history);
-        adapter = new CustomListAdapter(this, str, img, getResources());
-        history.setAdapter(adapter);
 
+        //adapter = new CustomListAdapter(this, str, img,latitudes,longitudes,distances, getResources());
+        //history.setAdapter(adapter);
+
+        location = locationFetcher.getLocation();
         establishConnection();
 
         Log.e("   >>>>>>>>>>    ", "HomeOnCreate");
@@ -130,11 +155,15 @@ public class Home extends AppCompatActivity {
 
     void establishConnection() {
 
-        if (isNetworkAvailable(this)) {
+        if (isNetworkAvailable(this) && location != null) {
             try {
+                status = ACTIVE_CONNECTION;
                 mSocket = IO.socket("http://letschatserver.herokuapp.com/");
 //                mSocket = IO.socket("http://letschatmodulusserver-61179.onmodulus.net/");
 
+                location = locationFetcher.getLocation();
+                if (location == null)
+                    Log.e("Location >>>>>", " nullAgain");
                 System.out.println("here: " + mSocket.toString());
                 SocketHandler.setSocket(mSocket);
                 mSocket.connect();
@@ -142,14 +171,24 @@ public class Home extends AppCompatActivity {
                 JSONObject user = new JSONObject();
                 user.put("name", username);
                 user.put("id", id);
+                user.put("latitude", location.getLatitude());
+                user.put("longitude", location.getLongitude());
                 mSocket.emit("register", user);
 
+
             } catch (Exception e) {
-                Log.i("fdf", e.toString());
+                Toast.makeText(context, "Exception thrown", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
 
             }
         } else {
             Toast.makeText(Home.this, "Please check your internet connectivity", Toast.LENGTH_SHORT).show();
+            status = NO_CONNECTION;
+            waiting_overlay.setVisibility(View.VISIBLE);
+            fab.setVisibility(View.INVISIBLE);
+            refresh.setVisibility(View.INVISIBLE);
+            cancelWaiting.setText("Retry");
+            waitingText.setText("No connection :(");
         }
     }
 
@@ -164,14 +203,25 @@ public class Home extends AppCompatActivity {
                     try {
                         JSONArray tempNames = data.getJSONArray("names");
                         JSONArray tempIds = data.getJSONArray("id");
-                        names = new String[tempIds.length()];
-                        ids = new String[tempIds.length()];
+                        JSONArray tempLatitudes = data.getJSONArray("latitudes");
+                        JSONArray tempLongitudes = data.getJSONArray("longitudes");
+                        int len = tempIds.length();
+                        names = new String[len];
+                        ids = new String[len];
+                        longitudes = new double[len];
+                        latitudes = new double[len];
+                        distances = new float[len];
+                        float results[] = new float[4];
                         for (int i = 0; i < tempIds.length(); i++) {
                             names[i] = tempNames.getString(i);
                             ids[i] = tempIds.getString(i);
-                            adapter = new CustomListAdapter(activity, names, img, getResources());
-                            history.setAdapter(adapter);
+                            latitudes[i] = tempLatitudes.getDouble(i);
+                            longitudes[i] = tempLongitudes.getDouble(i);
+                            Location.distanceBetween(location.getLatitude(), location.getLongitude(), latitudes[i], longitudes[i], results);
+                            distances[i] = results[0];
                         }
+                        adapter = new CustomListAdapter(activity, names, img, latitudes, longitudes, distances, getResources());
+                        history.setAdapter(adapter);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -218,6 +268,11 @@ public class Home extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        locationFetcher.onStop();
+    }
 
     @Override
     protected void onDestroy() {
@@ -234,29 +289,34 @@ public class Home extends AppCompatActivity {
             mSocket.disconnect();
             mSocket.off("newChat", newChatListener);
             mSocket.off("getUsers", displayOnlineUsers);
-        }
-        else{
+        } else {
             Log.e(">>>>>", "No Internet connection: OnDestroy() called");
         }
     }
 
     public void cancelWaiting(View view) {
-        waiting_overlay.setVisibility(View.INVISIBLE);
-        fab.setVisibility(View.VISIBLE);
-        refresh.setVisibility(View.VISIBLE);
-        try {
-            JSONObject ob = new JSONObject();
-            ob.put("id", id);
-            mSocket.emit("notReady", ob);
-            mSocket.off("newChat", newChatListener);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(context, "Exception thrown", Toast.LENGTH_LONG).show();
+        if (status == ACTIVE_CONNECTION) {
+            waiting_overlay.setVisibility(View.INVISIBLE);
+            fab.setVisibility(View.VISIBLE);
+            refresh.setVisibility(View.VISIBLE);
+            try {
+                JSONObject ob = new JSONObject();
+                ob.put("id", id);
+                mSocket.emit("notReady", ob);
+                mSocket.off("newChat", newChatListener);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(context, "Exception thrown", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            waiting_overlay.setVisibility(View.INVISIBLE);
+            fab.setVisibility(View.VISIBLE);
+            refresh.setVisibility(View.VISIBLE);
+            location = locationFetcher.getLocation();
+            establishConnection();
         }
 
     }
-
-
 
 
     @Override

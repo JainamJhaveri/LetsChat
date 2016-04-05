@@ -17,10 +17,12 @@ public class CustomListAdapter extends ArrayAdapter<String> {
     private final Activity context;
     private final String[] titleid;
     private final int[] imgid;
+    private double latitudes[],longitudes[];
+    private float distances[];
     private final Resources r;
 
 
-    public CustomListAdapter(Activity context, String[] titleid, int[] imgid,Resources r) {
+    public CustomListAdapter(Activity context, String[] titleid, int[] imgid,double[] latitudes,double[] longitudes,float[] distances, Resources r) {
         super(context, R.layout.layout_adapter, titleid);
         // TODO Auto-generated constructor stub
 
@@ -28,12 +30,16 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         this.context=context;
         this.titleid=titleid;
         this.imgid=imgid;
+        this.latitudes = latitudes;
+        this.longitudes = longitudes;
+        this.distances = distances;
 
     }
 
     protected class RowViewHolder {
-        public TextView text1;
+        public TextView name,lat,lon,distance;
         public ImageView imageview;
+
     }
 
     public View getView(int position,View view,ViewGroup parent) {
@@ -47,8 +53,12 @@ public class CustomListAdapter extends ArrayAdapter<String> {
             rowView = inflater.inflate(R.layout.layout_adapter, parent, false);
 
             holder = new RowViewHolder();
-            holder.text1 = (TextView) rowView.findViewById(R.id.textView);
+            holder.name = (TextView) rowView.findViewById(R.id.name);
             holder.imageview = (ImageView) rowView.findViewById(R.id.imageView);
+            holder.lat = (TextView) rowView.findViewById(R.id.lat);
+            holder.lon = (TextView) rowView.findViewById(R.id.lon);
+            holder.distance = (TextView) rowView.findViewById(R.id.distance);
+
 
             rowView.setTag(holder);
         }
@@ -57,15 +67,17 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         }
 
 
-        holder.text1.setText(titleid[position]);
-
+        holder.name.setText(titleid[position]);
+        holder.lat.setText(latitudes[position]+"");
+        holder.lon.setText(longitudes[position]+"");
+        holder.distance.setText(distances[position]+"");
 
         holder.imageview.setImageBitmap(
                 Profile.decodeSampledBitmapFromResource(r, imgid[position], 300, 300));
 
 
 //        holder.imageview.setImageResource(imgid[position]);
-        holder.text1.setOnClickListener(new View.OnClickListener() {
+        holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String item = ((TextView)view).getText().toString();

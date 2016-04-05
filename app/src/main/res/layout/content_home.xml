@@ -58,6 +58,7 @@
             android:layout_weight="2"
             android:gravity="center"
             android:text="Waiting..."
+            android:id="@+id/waitingText"
             android:textColor="#ffffff" />
 
         <Button

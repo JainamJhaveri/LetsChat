@@ -67,6 +67,7 @@ public class GPSLocation extends Service implements LocationListener {
                 latitude = loc.getLatitude();
                 longitude = loc.getLongitude();
                 System.out.println("lat: "+latitude + " long: "+longitude);
+
             }
         }
         catch (SecurityException e){
