@@ -77,6 +77,10 @@ public class Home extends AppCompatActivity {
 
         locationFetcher = new LocationFetcher(this);
         locationFetcher.onCreate();
+        if(locationFetcher.client == null)
+            Log.e("clent","....null");
+        else
+            Log.e("client","....okay");
 
         history = (ListView) findViewById(R.id.history);
         waitingText = (TextView) findViewById(R.id.waitingText);
@@ -159,11 +163,9 @@ public class Home extends AppCompatActivity {
             try {
                 status = ACTIVE_CONNECTION;
                 mSocket = IO.socket("http://letschatserver.herokuapp.com/");
-//                mSocket = IO.socket("http://letschatmodulusserver-61179.onmodulus.net/");
+                //mSocket = IO.socket("http://10.0.0.13:3000");
 
                 location = locationFetcher.getLocation();
-                if (location == null)
-                    Log.e("Location >>>>>", " nullAgain");
                 System.out.println("here: " + mSocket.toString());
                 SocketHandler.setSocket(mSocket);
                 mSocket.connect();
@@ -188,7 +190,10 @@ public class Home extends AppCompatActivity {
             fab.setVisibility(View.INVISIBLE);
             refresh.setVisibility(View.INVISIBLE);
             cancelWaiting.setText("Retry");
-            waitingText.setText("No connection :(");
+            if(isNetworkAvailable(this))
+            waitingText.setText("Turn Location On ");
+            else
+            waitingText.setText("No Connection :(");
         }
     }
 
@@ -211,6 +216,7 @@ public class Home extends AppCompatActivity {
                         longitudes = new double[len];
                         latitudes = new double[len];
                         distances = new float[len];
+                        double newDistance[] = new double[len];
                         float results[] = new float[4];
                         for (int i = 0; i < tempIds.length(); i++) {
                             names[i] = tempNames.getString(i);
@@ -219,6 +225,8 @@ public class Home extends AppCompatActivity {
                             longitudes[i] = tempLongitudes.getDouble(i);
                             Location.distanceBetween(location.getLatitude(), location.getLongitude(), latitudes[i], longitudes[i], results);
                             distances[i] = results[0];
+                            newDistance[i] = distanceTo(location.getLatitude(),location.getLongitude(),latitudes[i],longitudes[i]);
+
                         }
                         adapter = new CustomListAdapter(activity, names, img, latitudes, longitudes, distances, getResources());
                         history.setAdapter(adapter);
@@ -285,10 +293,12 @@ public class Home extends AppCompatActivity {
             e.printStackTrace();
         }
         if (isNetworkAvailable(this)) {
-            mSocket.emit("unregister", user);           // exception generated when no internet
-            mSocket.disconnect();
-            mSocket.off("newChat", newChatListener);
-            mSocket.off("getUsers", displayOnlineUsers);
+            if (mSocket != null) {
+                mSocket.emit("unregister", user);           // exception generated when no internet
+                mSocket.disconnect();
+                mSocket.off("newChat", newChatListener);
+                mSocket.off("getUsers", displayOnlineUsers);
+            }
         } else {
             Log.e(">>>>>", "No Internet connection: OnDestroy() called");
         }
@@ -312,6 +322,13 @@ public class Home extends AppCompatActivity {
             waiting_overlay.setVisibility(View.INVISIBLE);
             fab.setVisibility(View.VISIBLE);
             refresh.setVisibility(View.VISIBLE);
+            //locationFetcher.onCreate();
+            locationFetcher.onStart();
+            if(locationFetcher.client == null)
+                Log.e("clent","....null");
+            else
+                Log.e("client","....okay");
+
             location = locationFetcher.getLocation();
             establishConnection();
         }
@@ -325,4 +342,16 @@ public class Home extends AppCompatActivity {
         this.finish();
     }
 
+    double distanceTo(double lat1,double lon1,double lat2,double lon2) {
+        double radlat1 = Math.PI * lat1/180;
+        double radlat2 = Math.PI * lat2/180;
+        double theta = lon1-lon2;
+        double radtheta = Math.PI * theta/180;
+        double dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        dist = Math.acos(dist);
+        dist = dist * 180/Math.PI;
+        dist = dist * 60 * 1.1515;
+        dist = dist * 1.609344 * 1000;
+        return dist;
+    }
 }

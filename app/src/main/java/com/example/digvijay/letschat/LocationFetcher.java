@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -30,9 +31,9 @@ public class LocationFetcher implements GoogleApiClient.ConnectionCallbacks, Goo
 
     void onCreate() {
 
-        client = new GoogleApiClient.Builder(context).addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API).build();
+            client = new GoogleApiClient.Builder(context).addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API).build();
 
     }
 
@@ -42,31 +43,36 @@ public class LocationFetcher implements GoogleApiClient.ConnectionCallbacks, Goo
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
+            // here to request the mi ssing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Log.e("onConnected","...returned");
             return;
         }
+        Log.e("onConnected","...set");
         location = LocationServices.FusedLocationApi.getLastLocation(client);
+        if(location==null);
+        Log.e("onConnected","setButNull");
     }
 
-    Location getLocation(){
+    Location getLocation() {
         return location;
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.e("onConnectionSuspended","");
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
+        Log.e("onConnectionFailed","");
     }
 
     public void onStop() {
-        client.disconnect();
+        if (client != null)
+            client.disconnect();
     }
 }
