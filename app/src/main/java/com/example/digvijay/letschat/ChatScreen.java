@@ -1,5 +1,7 @@
 package com.example.digvijay.letschat;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ChatScreen extends AppCompatActivity {
 
@@ -26,7 +29,11 @@ public class ChatScreen extends AppCompatActivity {
     String oppUserName;
     View sendChatScreen,disableSend;
     com.github.nkzawa.socketio.client.Socket mSocket;
-
+    DatabaseAdapter db;
+    static final int ME = 0;
+    static final int OTHER = 1;
+    Context context ;
+    Calendar c;
 
     @Override
 
@@ -38,6 +45,8 @@ public class ChatScreen extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        context = this;
         mSocket = SocketHandler.getSocket();
         mSocket.on("newMessageR", messageReceived);
         mSocket.on("userLeft",disableSending);
@@ -54,7 +63,12 @@ public class ChatScreen extends AppCompatActivity {
         oppUserName = getIntent().getExtras().getString("name");
         toolbar.setTitle(oppUserName);
         Toast.makeText(this,oppUserName,Toast.LENGTH_LONG).show();
+
+        c = Calendar.getInstance();
+        new displayMessages().execute();
     }
+
+
 
     public void sendMessage(View v){
         String message = editText.getText().toString();
@@ -69,6 +83,10 @@ public class ChatScreen extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        if(db == null)
+            db = new DatabaseAdapter(this);
+        db.insertInTable_1(oppUserId,message,ME,c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE));
 
         mSocket.emit("newMessageS",ob);
     }
@@ -102,6 +120,8 @@ public class ChatScreen extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     chatScreenAdapter.add(m);
+                    db.insertInTable_1(oppUserId,m.content,OTHER,c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE));
+
 
                 }
             });
@@ -120,4 +140,21 @@ public class ChatScreen extends AppCompatActivity {
             });
         }
     };
+
+class displayMessages extends AsyncTask<Void,Void,Void>{
+
+    @Override
+    protected Void doInBackground(Void... params) {
+        db = new DatabaseAdapter(context);
+
+        db.insertName(oppUserId,oppUserName);
+        ArrayList<ChatMessage> list = db.getMessages(oppUserId);
+
+        for(int i=0;i<list.size();i++) {
+            chatScreenAdapter.add(list.get(i));
+        }
+    return null;
+    }
+}
+
 }

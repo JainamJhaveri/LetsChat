@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.github.nkzawa.emitter.Emitter;
@@ -89,6 +90,8 @@ public class Home extends AppCompatActivity {
         refresh = (Button) findViewById(R.id.refresh);
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
+//        Log.e(" >> ",AccessToken.getCurrentAccessToken().toString());
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +141,10 @@ public class Home extends AppCompatActivity {
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(this, Settings.class);
                 startActivity(settingsIntent);
+                return true;
+
+            case R.id.historyMenu:
+                startActivity(new Intent(this,History.class));
                 return true;
 
             case R.id.logout:
@@ -228,7 +235,7 @@ public class Home extends AppCompatActivity {
                             newDistance[i] = distanceTo(location.getLatitude(),location.getLongitude(),latitudes[i],longitudes[i]);
 
                         }
-                        adapter = new CustomListAdapter(activity, names, img, latitudes, longitudes, distances, getResources());
+                        adapter = new CustomListAdapter(activity, names, img, latitudes, longitudes, distances, getResources(),ids);
                         history.setAdapter(adapter);
                     } catch (JSONException e) {
                         e.printStackTrace();

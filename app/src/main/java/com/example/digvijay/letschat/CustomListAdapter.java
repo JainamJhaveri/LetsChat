@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 
 public class CustomListAdapter extends ArrayAdapter<String> {
 
@@ -20,9 +22,10 @@ public class CustomListAdapter extends ArrayAdapter<String> {
     private double latitudes[],longitudes[];
     private float distances[];
     private final Resources r;
+    String ids[];
 
 
-    public CustomListAdapter(Activity context, String[] titleid, int[] imgid,double[] latitudes,double[] longitudes,float[] distances, Resources r) {
+    public CustomListAdapter(Activity context, String[] titleid, int[] imgid,double[] latitudes,double[] longitudes,float[] distances, Resources r,String[] ids) {
         super(context, R.layout.layout_adapter, titleid);
         // TODO Auto-generated constructor stub
 
@@ -33,6 +36,7 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         this.latitudes = latitudes;
         this.longitudes = longitudes;
         this.distances = distances;
+        this.ids = ids;
 
     }
 
@@ -58,6 +62,9 @@ public class CustomListAdapter extends ArrayAdapter<String> {
             holder.lat = (TextView) rowView.findViewById(R.id.lat);
             holder.lon = (TextView) rowView.findViewById(R.id.lon);
             holder.distance = (TextView) rowView.findViewById(R.id.distance);
+
+            String url = "https://graph.facebook.com/" + ids[position] +"/picture?type=large";
+            Glide.with(context).load(url).crossFade().into(holder.imageview);
 
 
             rowView.setTag(holder);
