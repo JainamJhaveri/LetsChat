@@ -89,6 +89,17 @@ Cursor c = db.query(DatabaseHelper.TABLE_NAME_2, new String[]{DatabaseHelper.ID_
                 new String[]{DatabaseHelper.ID_2, DatabaseHelper.NAME_2, DatabaseHelper.LASTMESSAGE_2}, null, null, null, null, null);
     }
 
+    public void deleteChatMessages(String id) {
+        int deletedRows = db.delete(DatabaseHelper.TABLE_NAME_1, DatabaseHelper.EMAIL_ID + " = " + id, null);
+        Log.e(" >> ", "ChatMessages deleted: " +deletedRows);
+        deleteName(id);
+    }
+
+    public void deleteName(String id) {
+        int deletedRows = db.delete(DatabaseHelper.TABLE_NAME_2, DatabaseHelper.ID_2 + " = " + id, null);
+        Log.e(" >> ", "Name deleted: " +deletedRows);
+    }
+
 
     static class DatabaseHelper extends SQLiteOpenHelper {
 
