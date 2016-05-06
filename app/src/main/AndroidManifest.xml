@@ -46,9 +46,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.digvijay.letschat.Home" />
         </activity>
-        <activity android:name=".Profile"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity
+            android:name=".Profile"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ChatScreen"
             android:label="@string/title_activity_chat_screen"
@@ -61,7 +62,9 @@
         <activity
             android:name=".History"
             android:label="@string/title_activity_history"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SingleHistory" />
+        <activity android:name=".EditStatus"></activity>
     </application>
 
 </manifest>
