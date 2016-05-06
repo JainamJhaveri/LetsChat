@@ -12,14 +12,14 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-class HistoryAdapter extends BaseAdapter{
+class HistoryAdapter extends BaseAdapter {
 
     String[] names;
     String[] ids;
     String[] lastMessage;
     Context context;
 
-    public HistoryAdapter(Context context,String[] names, String[] ids, String[] lastMessage) {
+    public HistoryAdapter(Context context, String[] names, String[] ids, String[] lastMessage) {
         this.names = names;
         this.ids = ids;
         this.lastMessage = lastMessage;
@@ -43,22 +43,23 @@ class HistoryAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View rowView=convertView;
+        View rowView = convertView;
 
-        if(rowView == null) {
+        if (rowView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             rowView = inflater.inflate(R.layout.row_layout, parent, false);
-    }
+        }
 
-        TextView name = (TextView)rowView.findViewById(R.id.name);
-        TextView lastMessageTv = (TextView)rowView.findViewById(R.id.lastMessage);
+        TextView name = (TextView) rowView.findViewById(R.id.name);
+        TextView lastMessageTv = (TextView) rowView.findViewById(R.id.lastMessage);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView);
         name.setText(names[position]);
         lastMessageTv.setText(lastMessage[position]);
-        String url = "https://graph.facebook.com/" + ids[position] +"/picture?type=large";
-        Glide.with(context).load(url).crossFade().into(imageView);
+        String url = "https://graph.facebook.com/" + ids[position] + "/picture?type=large";
+        Glide.with(context).load(url).crossFade().centerCrop().into(imageView);
+
         return rowView;
 
 
-}
+    }
 }

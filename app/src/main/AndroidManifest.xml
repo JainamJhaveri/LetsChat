@@ -46,7 +46,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.digvijay.letschat.Home" />
         </activity>
-        <activity android:name=".Profile" />
+        <activity android:name=".Profile"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name=".ChatScreen"
             android:label="@string/title_activity_chat_screen"

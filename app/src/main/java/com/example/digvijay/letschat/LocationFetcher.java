@@ -31,7 +31,8 @@ public class LocationFetcher implements GoogleApiClient.ConnectionCallbacks, Goo
 
     void onCreate() {
 
-            client = new GoogleApiClient.Builder(context).addConnectionCallbacks(this)
+            client = new GoogleApiClient.Builder(context)
+                    .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API).build();
 
@@ -53,7 +54,7 @@ public class LocationFetcher implements GoogleApiClient.ConnectionCallbacks, Goo
         }
         Log.e("onConnected","...set");
         location = LocationServices.FusedLocationApi.getLastLocation(client);
-        if(location==null);
+        if( location==null );
         Log.e("onConnected","setButNull");
     }
 

@@ -18,21 +18,19 @@ public class CustomListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
     private final String[] titleid;
-    private final int[] imgid;
     private double latitudes[],longitudes[];
     private float distances[];
     private final Resources r;
     String ids[];
 
 
-    public CustomListAdapter(Activity context, String[] titleid, int[] imgid,double[] latitudes,double[] longitudes,float[] distances, Resources r,String[] ids) {
+    public CustomListAdapter(Activity context, String[] titleid, double[] latitudes,double[] longitudes,float[] distances, Resources r,String[] ids) {
         super(context, R.layout.layout_adapter, titleid);
         // TODO Auto-generated constructor stub
 
         this.r = r;
         this.context=context;
         this.titleid=titleid;
-        this.imgid=imgid;
         this.latitudes = latitudes;
         this.longitudes = longitudes;
         this.distances = distances;
@@ -63,10 +61,6 @@ public class CustomListAdapter extends ArrayAdapter<String> {
             holder.lon = (TextView) rowView.findViewById(R.id.lon);
             holder.distance = (TextView) rowView.findViewById(R.id.distance);
 
-            String url = "https://graph.facebook.com/" + ids[position] +"/picture?type=large";
-            Glide.with(context).load(url).crossFade().into(holder.imageview);
-
-
             rowView.setTag(holder);
         }
         else {
@@ -79,11 +73,9 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         holder.lon.setText(longitudes[position]+"");
         holder.distance.setText(distances[position]+"");
 
-        holder.imageview.setImageBitmap(
-                Profile.decodeSampledBitmapFromResource(r, imgid[position], 300, 300));
+        String url = "https://graph.facebook.com/" + ids[position] +"/picture?type=large";
+        Glide.with(context).load(url).crossFade().centerCrop().into(holder.imageview);
 
-
-//        holder.imageview.setImageResource(imgid[position]);
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,8 +83,6 @@ public class CustomListAdapter extends ArrayAdapter<String> {
                 Toast.makeText(getContext(),item,Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
         return rowView;
 

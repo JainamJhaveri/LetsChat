@@ -35,13 +35,16 @@ public class History extends AppCompatActivity {
         Cursor c = db.getHistory();
         String id[] = new String[c.getCount()];
         String names[] = new String[c.getCount()];
+        String lastmessage[] = new String [c.getCount()];
+
         int i = 0;
         while(c.moveToNext()){
-            id[i] = c.getString(c.getColumnIndex("id"));
-            names[i] = c.getString(c.getColumnIndex("name"));
+            id[i] = c.getString(c.getColumnIndex("ID"));
+            names[i] = c.getString(c.getColumnIndex("NAME"));
+            lastmessage[i] = c.getString(c.getColumnIndex("LASTMESSAGE"));
             i++;
         }
-        HistoryAdapter adapter = new HistoryAdapter(this,names,id,names);
+        HistoryAdapter adapter = new HistoryAdapter(this,names,id,lastmessage);
         lv.setAdapter(adapter);
 
 

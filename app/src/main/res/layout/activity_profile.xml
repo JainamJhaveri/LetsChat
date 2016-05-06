@@ -1,89 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e2dddd"
-    >
-    <LinearLayout
-        android:orientation="vertical"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:weightSum="2"
+    tools:context="com.example.digvijay.letschat.Profile">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5">
 
-        >
+        <ImageView
+            android:id="@+id/imageView_round"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Main Image"
+            android:padding="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/com_facebook_profile_picture_blank_square" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/image_border"
+            android:contentDescription="Image Border"
+            android:padding="0dp" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_weight="0.25">
 
         <TextView
-            android:gravity="left|center"
-            android:text="DOUBLE TAP ON THE PIC TO CHANGE IT"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:padding="7dp"
-            android:layout_margin="5dp"
-            />
+            android:layout_height="match_parent"
+            android:background="@drawable/textview_border"
+            android:gravity="center_vertical"
+            android:hint="Enter sample text..."
+            android:paddingBottom="8dp"
+            android:paddingLeft="6dp"
+            android:paddingTop="6dp"
+            android:textSize="18sp" />
 
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/edit_states"
+            android:clickable="true"
+            android:contentDescription="image"
+            android:padding="4dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_action_edit" />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:gravity="center_vertical|center_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:foregroundGravity="center"
-            android:background="#fef9f9">
-
-            <com.example.digvijay.letschat.RoundedImageView
-                android:id="@+id/imageView_round"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_launcher"
-                />
-
-        </LinearLayout>
-
-        <TextView
-            android:gravity="left|center"
-            android:text="WRITE SOMETHING ABOUT YOURSELF"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:layout_margin="5dp"
-            android:padding="7dp"
-            />
-
-        <EditText
-            android:hint="I am a techno freak and a to-be engineer. I love to create things just like that and not only for my resume. :P"
-            android:background="#fef9f9"
-            android:height="100dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:ems="15"
-            android:padding="7dp"
-            android:id="@+id/editText" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-
-
-        <Button
-            android:text="Apply Changes !"
-            android:layout_gravity="center_horizontal"
-            android:padding="5dp"
-            android:gravity="center"
-            android:background="#eee"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-
-    </LinearLayout>
-
-</ScrollView>
+    </RelativeLayout>
+</LinearLayout>
