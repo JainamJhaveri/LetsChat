@@ -25,14 +25,26 @@ public class MyPreferences {
     public MyPreferences() {}
 
     public static void setDistanceRange(Context context, int distancerange) {
-        SharedPreferences sharedPref = context.getSharedPreferences("data", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = context.getSharedPreferences(DATA, Context.MODE_PRIVATE);
         SharedPreferences.Editor prefEditor = sharedPref.edit();
         prefEditor.putInt("distancerange", distancerange);
         prefEditor.commit();
     }
 
+    public static void setStatus(Context context, String status){
+        SharedPreferences sharedPref = context.getSharedPreferences(DATA, Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor = sharedPref.edit();
+        prefEditor.putString("status", status);
+        prefEditor.commit();
+    }
+
+    public static String getStatus(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(DATA, Context.MODE_PRIVATE);
+        return sharedPreferences.getString("status", "Enter your status here");
+    }
+
     public static void setAgeRange(Context context, int agerange) {
-        SharedPreferences sharedPref = context.getSharedPreferences("data", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = context.getSharedPreferences(DATA, Context.MODE_PRIVATE);
         SharedPreferences.Editor prefEditor = sharedPref.edit();
         prefEditor.putInt("agerange", agerange);
         prefEditor.commit();

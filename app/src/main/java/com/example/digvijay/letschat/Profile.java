@@ -1,19 +1,24 @@
 package com.example.digvijay.letschat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import static com.example.digvijay.letschat.MyPreferences.getId;
+import static com.example.digvijay.letschat.MyPreferences.getStatus;
 
 public class Profile extends AppCompatActivity {
 
     private ImageView imageViewRound;
-
+    TextView statusTv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +26,11 @@ public class Profile extends AppCompatActivity {
 
         imageViewRound = (ImageView) findViewById(R.id.imageView_round);
 //        imageViewRound.setImageBitmap( decodeSampledBitmapFromResource(getResources(), R.drawable.profile_pic, 300, 300));
+
         String id = getId(this);
+
+        statusTv = (TextView) findViewById(R.id.statusTV);
+        statusTv.setText(getStatus(this));
         imageViewRound.setImageBitmap(getFacebookProfilePicture(this, id  ));
 
     }
@@ -58,11 +67,19 @@ public class Profile extends AppCompatActivity {
         return inSampleSize;
     }
 
+    public void editStatusClicked(View view) {
+        Intent i = new Intent(this, EditStatus.class);
+        startActivity(i);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        statusTv.setText(getStatus(this));
+    }
 
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,      // This method makes it easy to load a bitmap of arbitrarily large size into an ImageView that displays a 300x300 pixel thumbnail
                                                          int reqWidth, int reqHeight) {
-
         // First decode with inJustDecodeBounds=true to check dimensions
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
@@ -75,8 +92,6 @@ public class Profile extends AppCompatActivity {
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeResource(res, resId, options);
     }
+
+
 }
-
-
-// Reference: http://developer.android.com/training/displaying-bitmaps/load-bitmap.html
-// Diggy!! check this out too: http://tools.android.com/navigation-editor
