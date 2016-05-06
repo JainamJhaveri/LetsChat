@@ -3,6 +3,7 @@ package com.example.digvijay.letschat;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,14 +44,23 @@ public class LoginFragment extends Fragment {
         public void onSuccess(LoginResult loginResult) {
             AccessToken at = loginResult.getAccessToken();
             profile = Profile.getCurrentProfile();
-            Toast.makeText(getActivity().getApplicationContext(), "Hi " + profile.getFirstName() + " :)", Toast.LENGTH_SHORT).show();
+            if( profile == null)
+                try {
+                    Log.e(" >> ","getting null profile");
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-            setUsername(getContext(), profile.getName());
-            setId(getContext(), profile.getId());
-            setLoggedIn(getContext(), true);
+            if( profile != null) {
+                Toast.makeText(getActivity().getApplicationContext(), "Hi " + profile.getFirstName() + " :)", Toast.LENGTH_SHORT).show();
 
-            moveToHomeActivity(profile);
+                setUsername(getContext(), profile.getName());
+                setId(getContext(), profile.getId());
+                setLoggedIn(getContext(), true);
 
+                moveToHomeActivity(profile);
+            }
         }
 
         @Override
@@ -60,7 +70,7 @@ public class LoginFragment extends Fragment {
 
         @Override
         public void onError(FacebookException error) {
-            Toast.makeText(getContext(), "Please check you Internet Connectivity", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Please check you Internet Connection !", Toast.LENGTH_LONG).show();
         }
     };
 
@@ -124,8 +134,8 @@ public class LoginFragment extends Fragment {
 
         if (profile != null) {
             Intent i = new Intent( getActivity() , Home.class );
-            startActivity( i );
             getActivity().finish();
+            startActivity(i);
         }
 
     }

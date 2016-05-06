@@ -41,8 +41,7 @@ public class Home extends AppCompatActivity {
     String ids[], names[];
     double latitudes[], longitudes[];
     float distances[];
-    String[] str = {"User 1", "User 2", "User 3", "User 4", "User 5", "User 6"};
-    int[] img = {R.drawable.p4, R.drawable.p4, R.drawable.p4, R.drawable.p4, R.drawable.p4, R.drawable.p4};
+
     CustomListAdapter adapter;
     FloatingActionButton fab;
     LocationFetcher locationFetcher;
@@ -78,10 +77,10 @@ public class Home extends AppCompatActivity {
 
         locationFetcher = new LocationFetcher(this);
         locationFetcher.onCreate();
-        if(locationFetcher.client == null)
-            Log.e("clent","....null");
+        if (locationFetcher.client == null)
+            Log.e("clent", "....null");
         else
-            Log.e("client","....okay");
+            Log.e("client", "....okay");
 
         history = (ListView) findViewById(R.id.history);
         waitingText = (TextView) findViewById(R.id.waitingText);
@@ -144,7 +143,7 @@ public class Home extends AppCompatActivity {
                 return true;
 
             case R.id.historyMenu:
-                startActivity(new Intent(this,History.class));
+                startActivity(new Intent(this, History.class));
                 return true;
 
             case R.id.logout:
@@ -191,20 +190,21 @@ public class Home extends AppCompatActivity {
 
             }
         } else {
-            Toast.makeText(Home.this, "Please check your internet connectivity", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Home.this, "Please check your connectivity", Toast.LENGTH_SHORT).show();
             status = NO_CONNECTION;
             waiting_overlay.setVisibility(View.VISIBLE);
             fab.setVisibility(View.INVISIBLE);
             refresh.setVisibility(View.INVISIBLE);
             cancelWaiting.setText("Retry");
-            if(isNetworkAvailable(this))
-            waitingText.setText("Turn Location On ");
+            if (isNetworkAvailable(this))
+                waitingText.setText("Turn Location On ");
             else
-            waitingText.setText("No Connection :(");
+                waitingText.setText("No Connection :(");
         }
     }
 
     private Emitter.Listener displayOnlineUsers = new Emitter.Listener() {
+
 
         @Override
         public void call(final Object... args) {
@@ -232,10 +232,10 @@ public class Home extends AppCompatActivity {
                             longitudes[i] = tempLongitudes.getDouble(i);
                             Location.distanceBetween(location.getLatitude(), location.getLongitude(), latitudes[i], longitudes[i], results);
                             distances[i] = results[0];
-                            newDistance[i] = distanceTo(location.getLatitude(),location.getLongitude(),latitudes[i],longitudes[i]);
+                            newDistance[i] = distanceTo(location.getLatitude(), location.getLongitude(), latitudes[i], longitudes[i]);
 
                         }
-                        adapter = new CustomListAdapter(activity, names, img, latitudes, longitudes, distances, getResources(),ids);
+                        adapter = new CustomListAdapter(activity, names, latitudes, longitudes, distances, getResources(), ids);
                         history.setAdapter(adapter);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -331,10 +331,10 @@ public class Home extends AppCompatActivity {
             refresh.setVisibility(View.VISIBLE);
             //locationFetcher.onCreate();
             locationFetcher.onStart();
-            if(locationFetcher.client == null)
-                Log.e("clent","....null");
+            if (locationFetcher.client == null)
+                Log.e("clent", "....null");
             else
-                Log.e("client","....okay");
+                Log.e("client", "....okay");
 
             location = locationFetcher.getLocation();
             establishConnection();
@@ -349,14 +349,14 @@ public class Home extends AppCompatActivity {
         this.finish();
     }
 
-    double distanceTo(double lat1,double lon1,double lat2,double lon2) {
-        double radlat1 = Math.PI * lat1/180;
-        double radlat2 = Math.PI * lat2/180;
-        double theta = lon1-lon2;
-        double radtheta = Math.PI * theta/180;
+    double distanceTo(double lat1, double lon1, double lat2, double lon2) {
+        double radlat1 = Math.PI * lat1 / 180;
+        double radlat2 = Math.PI * lat2 / 180;
+        double theta = lon1 - lon2;
+        double radtheta = Math.PI * theta / 180;
         double dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
         dist = Math.acos(dist);
-        dist = dist * 180/Math.PI;
+        dist = dist * 180 / Math.PI;
         dist = dist * 60 * 1.1515;
         dist = dist * 1.609344 * 1000;
         return dist;

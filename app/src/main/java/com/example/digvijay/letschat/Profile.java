@@ -1,12 +1,14 @@
 package com.example.digvijay.letschat;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import com.bumptech.glide.Glide;
+import static com.example.digvijay.letschat.MyPreferences.getId;
 
 public class Profile extends AppCompatActivity {
 
@@ -18,8 +20,18 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         imageViewRound = (ImageView) findViewById(R.id.imageView_round);
-        imageViewRound.setImageBitmap(
-                decodeSampledBitmapFromResource(getResources(), R.drawable.profile_pic, 300, 300));
+//        imageViewRound.setImageBitmap( decodeSampledBitmapFromResource(getResources(), R.drawable.profile_pic, 300, 300));
+        String id = getId(this);
+        imageViewRound.setImageBitmap(getFacebookProfilePicture(this, id  ));
+
+    }
+
+    private Bitmap getFacebookProfilePicture(Context context, String userID) {
+
+        String url = "https://graph.facebook.com/" + userID + "/picture?type=large";
+        Glide.with(context).load(url).crossFade().into(imageViewRound);
+
+        return null;
 
     }
 
