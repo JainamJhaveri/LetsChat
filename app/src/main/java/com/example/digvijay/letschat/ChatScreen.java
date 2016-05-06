@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -68,6 +69,21 @@ public class ChatScreen extends AppCompatActivity {
         Toast.makeText(this, oppUserName, Toast.LENGTH_LONG).show();
 
 
+
+
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                Toast.makeText(context,"opened",Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(context,"closed",Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+
         c = Calendar.getInstance();
         new DisplayMessages().execute();
 
@@ -91,6 +107,7 @@ public class ChatScreen extends AppCompatActivity {
 
         String message = editText.getText().toString();
         editText.setText("");
+
         ChatMessage m = new ChatMessage(message, true);
         chatScreenAdapter.add(m);
         JSONObject ob = new JSONObject();
@@ -147,6 +164,7 @@ public class ChatScreen extends AppCompatActivity {
                     db.insertInTable_1(oppUserId, m.content, OTHER, c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
                     lastmessage = message;      // last message is updated
                     db.insertLastMessage(oppUserId, oppUserName, lastmessage);
+                    scrollMyListViewToBottom();
                 }
             });
         }
@@ -177,10 +195,26 @@ public class ChatScreen extends AppCompatActivity {
             ArrayList<ChatMessage> list = db.getMessages(oppUserId);
 
             for (int i = 0; i < list.size(); i++) {
+
                 chatScreenAdapter.add(list.get(i));
             }
             return null;
         }
+
+
+
     }
 
-}
+    private void scrollMyListViewToBottom() {
+        lv.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select the last row so it will scroll into view...
+                lv.setSelection(chatScreenAdapter.getCount() - 1);
+            }
+        });
+
+
+    }}
+
+

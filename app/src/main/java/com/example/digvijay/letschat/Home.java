@@ -184,7 +184,7 @@ public class Home extends AppCompatActivity {
 
                 MyPreferences preferences = new MyPreferences();
                 String status = preferences.getStatus(context);
-
+                Log.e(" >>>> status: ",status);
                 user.put("status",status);
 
                 mSocket.emit("register", user);
@@ -279,6 +279,9 @@ public class Home extends AppCompatActivity {
                     i.putExtra("status",status);
 
                     startActivity(i);
+                    waiting_overlay.setVisibility(View.INVISIBLE);
+                    fab.setVisibility(View.VISIBLE);
+                    refresh.setVisibility(View.VISIBLE);
                 }
             });
         }

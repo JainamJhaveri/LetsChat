@@ -41,6 +41,7 @@ public class ChatScreenAdapter extends ArrayAdapter<ChatMessage> {
             TextView textView = (TextView) convertView.findViewById(R.id.text);
             textView.setText(getItem(position).getContent());
 
+
         } else if (viewType == OTHER_MESSAGE) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.chat_bubble_other, parent, false);
 

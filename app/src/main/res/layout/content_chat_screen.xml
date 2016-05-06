@@ -40,6 +40,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SEND"
+            android:textColor="#ffffff"
+            android:background="#039BE5"
             android:onClick="sendMessage"
             android:padding="20dp"
             />
