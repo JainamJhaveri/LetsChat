@@ -166,7 +166,9 @@ public class Home extends AppCompatActivity {
         if (isNetworkAvailable(this) && location != null) {
             try {
                 status = ACTIVE_CONNECTION;
-                mSocket = IO.socket("http://letschatserver.herokuapp.com/");
+                //mSocket = IO.socket("http://letschatserver.herokuapp.com/");
+                mSocket = IO.socket("http://chat10101.herokuapp.com/");
+
                 //mSocket = IO.socket("http://10.0.0.13:3000");
 
                 location = locationFetcher.getLocation();
