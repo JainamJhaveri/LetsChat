@@ -126,6 +126,7 @@ public class ChatScreen extends AppCompatActivity {
         mSocket.emit("newMessageS", ob);
         lastmessage = message;
         db.insertLastMessage(oppUserId, oppUserName, lastmessage);
+        scrollMyListViewToBottom();
     }
 
     @Override
