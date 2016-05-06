@@ -86,9 +86,11 @@ public class ChatScreen extends AppCompatActivity {
 
         if (db == null)
             db = new DatabaseAdapter(this);
+        Log.e(">>", "sendMessage: " + oppUserId );
         db.insertInTable_1(oppUserId, message, ME, c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
         mSocket.emit("newMessageS", ob);
         lastmessage = message;
+        db.insertLastMessage(oppUserId, oppUserName, lastmessage);
     }
 
     @Override
@@ -103,8 +105,8 @@ public class ChatScreen extends AppCompatActivity {
         }
         mSocket.emit("leftChat", ob);
         Log.e("   >>>>>>>>>>    ", "ChatScreenOnDestroy");
-        db.insertLastMessage(oppUserId, oppUserName, lastmessage);
-
+//        db.insertLastMessage(oppUserId, oppUserName, lastmessage);
+                // last message is stored in DB when we press back button.. for better performance
     }
 
     Emitter.Listener messageReceived = new Emitter.Listener() {
@@ -123,9 +125,10 @@ public class ChatScreen extends AppCompatActivity {
                     }
                     m = new ChatMessage(message, false);
                     chatScreenAdapter.add(m);
+                    Log.e(">>", "sendMessage: " + oppUserId );
                     db.insertInTable_1(oppUserId, m.content, OTHER, c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE));
-                    lastmessage = message;
-
+                    lastmessage = message;      // last message is updated
+                    db.insertLastMessage(oppUserId, oppUserName, lastmessage);
                 }
             });
         }
@@ -139,7 +142,8 @@ public class ChatScreen extends AppCompatActivity {
                 public void run() {
                     disableSend.setVisibility(View.VISIBLE);
                     sendChatScreen.setVisibility(View.INVISIBLE);
-                    db.insertLastMessage(oppUserId, oppUserName, lastmessage);
+//                    db.insertLastMessage(oppUserId, oppUserName, lastmessage);
+                                // last message is stored in DB when other user leaves chat ... for better performance
                 }
             });
         }
