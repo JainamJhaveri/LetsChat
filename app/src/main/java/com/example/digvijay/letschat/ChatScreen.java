@@ -37,6 +37,7 @@ public class ChatScreen extends AppCompatActivity {
     Context context;
     Calendar c;
     String lastmessage;
+    String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +63,32 @@ public class ChatScreen extends AppCompatActivity {
 
         oppUserId = getIntent().getExtras().getString("id");
         oppUserName = getIntent().getExtras().getString("name");
-        toolbar.setTitle(oppUserName);
+        status = getIntent().getExtras().getString("status");
+        getSupportActionBar().setTitle(oppUserName);
         Toast.makeText(this, oppUserName, Toast.LENGTH_LONG).show();
+
 
         c = Calendar.getInstance();
         new DisplayMessages().execute();
+
+
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserInfo ob = new UserInfo();
+                ob.userId = oppUserId;
+                ob.userName = oppUserName;
+                ob.userStatus = status;
+                ob.show(getSupportFragmentManager(),"userInfoDialog");
+                Toast.makeText(context,"Clicked",Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
 
     public void sendMessage(View v) {
+
         String message = editText.getText().toString();
         editText.setText("");
         ChatMessage m = new ChatMessage(message, true);

@@ -21,13 +21,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:textColor="#000"
+            android:textColor="#01579B"
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:gravity="left|center"
+
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 

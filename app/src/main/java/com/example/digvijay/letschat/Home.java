@@ -72,8 +72,6 @@ public class Home extends AppCompatActivity {
         username = getUsername(this);
         id = getId(this);
 
-        tv = (TextView) findViewById(R.id.userName);
-        tv.setText(username);
 
         locationFetcher = new LocationFetcher(this);
         locationFetcher.onCreate();
@@ -181,6 +179,12 @@ public class Home extends AppCompatActivity {
                 user.put("id", id);
                 user.put("latitude", location.getLatitude());
                 user.put("longitude", location.getLongitude());
+
+                MyPreferences preferences = new MyPreferences();
+                String status = preferences.getStatus(context);
+
+                user.put("status",status);
+
                 mSocket.emit("register", user);
 
 
@@ -258,15 +262,19 @@ public class Home extends AppCompatActivity {
                     Intent i = new Intent(context, ChatScreen.class);
                     String name = "";
                     String id = "";
+                    String status = "";
+
                     try {
                         id = ob.getString("id");
                         name = ob.getString("name");
+                        status = ob.getString("status");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                     i.putExtra("id", id);
                     i.putExtra("name", name);
+                    i.putExtra("status",status);
 
                     startActivity(i);
                 }

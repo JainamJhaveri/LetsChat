@@ -34,7 +34,7 @@
         android:background="#ffffff"
         app:elevation="6dp"
         android:contextClickable="true"
-        app:backgroundTint="#5162bc"
+        app:backgroundTint="#01579B"
         android:cropToPadding="false" />
 
 </android.support.design.widget.CoordinatorLayout>

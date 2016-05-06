@@ -10,4 +10,7 @@
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_chat_screen">ChatScreen</string>
     <string name="title_activity_history">History</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

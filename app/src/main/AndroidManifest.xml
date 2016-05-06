@@ -52,13 +52,15 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ChatScreen"
-            android:label="@string/title_activity_chat_screen"
+
             android:parentActivityName=".Home"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.digvijay.letschat.Home" />
         </activity>
+
+
         <activity
             android:name=".History"
             android:label="@string/title_activity_history"

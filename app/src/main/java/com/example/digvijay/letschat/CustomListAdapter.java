@@ -3,6 +3,7 @@ package com.example.digvijay.letschat;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +73,8 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         holder.lat.setText(latitudes[position]+"");
         holder.lon.setText(longitudes[position]+"");
         holder.distance.setText(distances[position]+"");
+
+
 
         String url = "https://graph.facebook.com/" + ids[position] +"/picture?type=large";
         Glide.with(context).load(url).crossFade().centerCrop().into(holder.imageview);
